@@ -12,11 +12,24 @@
 
 int main(int argc, char *argv[])
 {
-	int maxPort=0;
+	int minPort=1;
+	int maxPort=100;
 	int i=0;
 	struct servent *service;
-	maxPort=atoi(argv[1]);
-    	for(i=1; i<=maxPort; i++) {
+
+	if ( argc < 3 )
+	{
+		printf("Please provide a port ramge. eg ./knownports 45 160 \n");
+		printf("Running in default range 1-100\n");
+		printf("Please provide a port range if need other values\n");
+		printf("./knownports 45 160\n");
+	}
+	else
+	{
+		minPort=atoi(argv[1]);
+		maxPort=atoi(argv[2]);
+	}
+    	for(i=minPort; i<=maxPort; i++) {
 		service = getservbyport(htons(i), "tcp");
 		if (service != NULL)
 			printf("\t%d\t%s\n", i , service->s_name);
